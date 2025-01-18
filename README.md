@@ -6,10 +6,12 @@
 oryo-tech-platform/
 │── user_service/        # User Management (Flask)
 │   ├── app/
-│   │   ├── models.py
+│   │   ├── __init__.py
 │   │   ├── routes.py
 │   │   ├── services.py
-│   │   ├── __init__.py
+│   │   ├── models.py
+│   ├── __init__.py #deleted
+│   ├── .gitignore
 │   ├── config.py
 │   ├── requirements.txt
 │   ├── run.py
@@ -19,4 +21,4 @@ oryo-tech-platform/
 │── notification_service/ # Notifications (Flask)
 │── api_gateway/         # API Gateway (Flask or Nginx)
 │── docker-compose.yml   # To orchestrate microservices
-│── .env                 # Environment variables
+
