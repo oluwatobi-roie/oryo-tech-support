@@ -13,10 +13,14 @@ class RoleEnum(enum.Enum):
     ON_SITE_TECHNICIAN = "On-Site Technician"
 
 class User(db.Model):
+    __tablename__ = 'users' #Explicitly specify table name to avoide reservfed keyword in postgresql conflict
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    f_name= db.Column(db.String(80), unique=True, nullable=False)
+    l_name = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
+    department = db.Column(db.String(80), nullable=False)
+    phone_number = db.Column(db.String(16), nullable=False)
     role = db.Column(db.Enum(RoleEnum), nullable=False)
     permissions = db.Column(JSON, nullable=True)
 

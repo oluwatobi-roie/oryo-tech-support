@@ -1,30 +1,38 @@
-# user_service/run.py
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from app.models import db, User, RoleEnum  # Ensure correct import
 from app.routes import user_bp
-
-# Initialize extensions
-db = SQLAlchemy()
-jwt = JWTManager()
-
 
 def create_app(config_object='config.Config'):
     app = Flask(__name__)
-
-    # Load configuration from the config.py file
     app.config.from_object(config_object)
 
     # Initialize extensions
     db.init_app(app)
-    jwt.init_app(app)
+    jwt = JWTManager(app)
+    migrate = Migrate(app, db)  # Ensure Migrate is initialized here
 
-    # Register blueprints for the user routes
     app.register_blueprint(user_bp, url_prefix='/users')
 
-    # Create all tables if needed (use migrations in production)
     with app.app_context():
-        db.create_all()
+    #Check if the admin user already exists
+        if not User.query.filter_by(email="oluwatobi.akomolafe@oryoltd.com").first():
+            # Create a default admin user
+            admin_user = User(
+                f_name="Oluwatobi",
+                l_name="Akomolafe",
+                email="oluwatobi.akomolafe@oryoltd.com",
+                phone_number="07037870700",
+                role=RoleEnum.GENERAL_ADMIN,
+                department="Admin",  # Add appropriate department if needed
+            )
+            admin_user.set_password("12345")
+            db.session.add(admin_user)
+            db.session.commit()
+            print("Default user for Oluwatobi.akomolafe set")
+
+        print("Default user exist... Continuing application")
 
     return app
 
