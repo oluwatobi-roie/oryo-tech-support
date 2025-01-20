@@ -14,7 +14,9 @@ def create_task():
     
     # Ensure current user is Tech Support
     user = User.query.get(current_user['id'])
-    if not user or user.role != 'Technical Support':
+    role = User.query.get(current_user['role'])
+
+    if not user or role != 'Technical Support':
         return jsonify({'error': 'Unauthorized'}), 403
 
     new_task = InstallationTask(

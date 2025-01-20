@@ -60,16 +60,33 @@ methods: {
 
       // Decode the token to get the user's role
       const decodedToken = jwtDecode(token);
-      const userRole = decodedToken.sub.role;
-      localStorage.setItem("role", userRole );
+
+      const userDetails = JSON.parse(decodedToken.sub);
+
+      // Now you can access the user details
+      const userRole = userDetails.role;
+      const userId = userDetails.id;
+      // const userEmail = userDetails.email;
+      // const userDepartment = userDetails.department;
+      
+
+
+      localStorage.setItem("Id", userId);
+      localStorage.setItem("role", userRole);
+      // console.log(decodedToken);
+      // console.log("UserID: ", userId)
+      // console.log("UserRole: ", userRole)
+      // console.log("UserEmail: ", userEmail)
+      // console.log("UserDepartment: ", userDepartment)
 
       alert("Login successful!");
-      console.log(userRole)
       // Redirect user based on role
       if (userRole === "Technical Support") {
         this.$router.push("/tech-support");
       } else if (userRole === "On-Site Technician") {
         this.$router.push("/technician-dashboard");
+      } else if (userRole === "General Admin") {
+        this.$router.push("/admin-dashboard");
       } else {
         this.$router.push("/default_page"); // Default dashboard
       }

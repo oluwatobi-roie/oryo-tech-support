@@ -5,7 +5,7 @@ from flask_jwt_extended import JWTManager
 from app.models import db, User, RoleEnum  # Ensure correct import
 from app.routes import user_bp
 from app.tech_support import tech_support_bp
-
+from app.gen_admin import admin_bp
 
 def create_app(config_object='config.Config'):
     app = Flask(__name__)
@@ -22,6 +22,7 @@ def create_app(config_object='config.Config'):
     # Importing necessary Routes for the API
     app.register_blueprint(user_bp, url_prefix='/users')
     app.register_blueprint(tech_support_bp, url_prefix='/tech_support')
+    app.register_blueprint(admin_bp, url_prefix="/admin")
 
 
 

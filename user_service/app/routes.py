@@ -3,7 +3,7 @@
 # Register Route
 # Login Route
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, json, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from .models import db, User, RoleEnum
 
@@ -55,17 +55,17 @@ def login():
     if not user or not user.check_password(data["password"]):
         return jsonify({"error": "Invalid credentials"}), 401
 
-    access_token = create_access_token(identity={"id": user.id, "role": user.role.value})
+    
+    identity_data = json.dumps({
+        "id": user.id,
+        "role": user.role.value,
+        "email": user.email,
+        "department": user.department  # Add any other fields here
+    })
+    access_token = create_access_token(identity=identity_data)
     return jsonify({"access_token": access_token}), 200
-
-
-
-
-
-
-
-
-
+    # access_token = create_access_token(identity={"id": user.id, "role": user.role.value})
+    # return jsonify({"access_token": access_token}), 200
 
 
 
@@ -74,6 +74,8 @@ def login():
 def protected():
     current_user = get_jwt_identity()
     return jsonify({"message": f"Hello {current_user['id']}, you have access!"}), 200
+
+
 
 
 

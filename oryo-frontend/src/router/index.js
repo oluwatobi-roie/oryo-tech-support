@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import UserLogin from '@/components/UserLogin.vue';
 import TechSupportDashboard from '@/components/tech_support.vue';
+import admin_dashboard from '@/components/admin_dashboard.vue';
 import DefaultPage from '@/components/default_page.vue';
 
 
@@ -11,9 +12,13 @@ const routes = [
     { 
         path: '/tech-support', 
         component: TechSupportDashboard,
-        meta: { requiresAuth: true, role: "Technical Support" } 
+        meta: { requiresAuth: true, role: 'tech-support' }
      },
-
+     {
+        path: '/admin-dashboard',
+        component: admin_dashboard,
+        meta: { requiresAuth: true, role: 'General Admin' }
+     },
     { 
         path: '/default_page',
          component: DefaultPage 
