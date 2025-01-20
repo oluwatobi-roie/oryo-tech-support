@@ -44,7 +44,7 @@ def create_app(config_object='config.Config'):
             db.session.add(admin_user)
             db.session.commit()
             print("Default user for Oluwatobi.akomolafe set")
-        
+     
         if not User.query.filter_by(email="tech.support@oryoltd.com").first():
             # Create a default admin user
             admin_user = User(
@@ -76,6 +76,8 @@ def create_app(config_object='config.Config'):
             print("Default onsite technician user for site.technician@oryoltd.com set")
 
         print("Default users exist... Continuing application")
+
+        print("Default user exist... Continuing application")
 
     return app
 
